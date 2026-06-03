@@ -31,14 +31,12 @@
 
         .hero {
             min-height: 100vh;
-            padding: 80px 20px;
+            padding: 24px 20px 110px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
+            justify-content: flex-start;
             position: relative;
-
             transform: none;
         }
 
@@ -54,58 +52,70 @@
         }
 
         .logo {
-            width: 90%;
-            max-width: 700px;
+            width: min(72vw, 520px);
             height: auto;
             object-fit: contain;
             filter: brightness(0) invert(72%);
             opacity: .92;
+            margin-top: -20px;
         }
 
         .banda {
-            width: 90%;
-            max-width: 550px;
+            width: min(62vw, 430px);
             height: auto;
             position: relative;
-            top: auto;
-            margin-top: -50px;
+            margin-top: -35px;
         }
 
         .subtitulo {
             position: relative;
-            top: auto;
-
-            margin-top: 20px;
-
-            font-size: clamp(28px, 3vw, 42px);
-
+            margin-top: 10px;
+            font-size: clamp(24px, 2.4vw, 36px);
             color: #4b5563;
-
             text-align: center;
         }
 
         .descricao {
             position: relative;
-            top: auto;
-
-            margin-top: 15px;
-
+            margin-top: 10px;
             text-align: center;
-
-            font-size: clamp(16px, 1.8vw, 24px);
-
+            font-size: clamp(15px, 1.4vw, 20px);
             color: #6b7280;
         }
 
+
         .btn-comecar {
             position: relative;
-            top: auto;
+            margin-top: 22px;
+            padding: 15px 36px;
+            font-size: 18px;
+        }
 
-            margin-top: 30px;
+        @media (max-height: 760px) {
+            .logo {
+                width: min(60vw, 430px);
+                margin-top: -45px;
+            }
 
-            padding: 18px 45px;
+            .banda {
+                width: min(52vw, 360px);
+                margin-top: -30px;
+            }
 
-            font-size: 20px;
+            .subtitulo {
+                font-size: 28px;
+                margin-top: 6px;
+            }
+
+            .descricao {
+                font-size: 16px;
+            }
+
+            .btn-comecar {
+                margin-top: 16px;
+                padding: 13px 32px;
+                font-size: 17px;
+            }
         }
 
         .btn-comecar:hover {
