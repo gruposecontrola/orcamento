@@ -1292,8 +1292,46 @@
                 margin-top: 26px;
             }
         }
-    </style>
 
+        /* ========================= */
+        /* PDF */
+        /* ========================= */
+
+        .pdf-container {
+
+            width: 800px;
+
+            padding: 40px;
+
+            background: white;
+
+            color: #163a63;
+
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .pdf-container h1 {
+
+            margin-bottom: 20px;
+        }
+
+        .pdf-container h2 {
+
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        .pdf-container p {
+
+            margin-bottom: 8px;
+        }
+
+        .pdf-container ul {
+
+            padding-left: 20px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
 <body>
@@ -1469,7 +1507,7 @@
                             onclick="abrirMapaPalco('reduzido')">
 
                         <div class="selo-mapa-palco">
-                            🔍 
+                            🔍
                         </div>
 
                     </div>
@@ -3207,15 +3245,161 @@
         }
         function gerarPDFProposta() {
 
-            alert(
-                "Função de PDF temporariamente desativada."
-            );
+            // =========================
+            // DADOS DO EVENTO
+            // =========================
+
+            document.getElementById("pdfCliente").textContent =
+                document.getElementById("nomeContratante").value || "-";
+
+            document.getElementById("pdfDataEvento").textContent =
+                document.getElementById("dataEvento").value || "-";
+
+            document.getElementById("pdfHorario").textContent =
+                document.getElementById("horarioEvento").value || "-";
+
+            document.getElementById("pdfLocal").textContent =
+                document.getElementById("localEvento").value || "-";
+
+            document.getElementById("pdfPerfil").textContent =
+                respostas.perfil || "-";
+
+            document.getElementById("pdfDuracao").textContent =
+                respostas.tempo || "-";
+
+            document.getElementById("pdfSom").textContent =
+                respostas.som || "-";
+
+
+            // =========================
+            // UPGRADES
+            // =========================
+
+            const listaUpgrades =
+                document.getElementById("pdfUpgrades");
+
+            listaUpgrades.innerHTML = "";
+
+            if (
+                !upgradesSelecionados ||
+                upgradesSelecionados.length === 0
+            ) {
+
+                listaUpgrades.innerHTML =
+                    "<li>Nenhum serviço adicional selecionado</li>";
+
+            } else {
+
+                upgradesSelecionados.forEach(upgrade => {
+
+                    const li =
+                        document.createElement("li");
+
+                    li.textContent =
+                        upgrade.nome;
+
+                    listaUpgrades.appendChild(li);
+
+                });
+
+            }
+
+
+            // =========================
+            // VALOR FINAL
+            // =========================
+
+            document.getElementById("pdfValorTotal").textContent =
+                valorTotalAtual.toLocaleString(
+                    "pt-BR",
+                    {
+                        style: "currency",
+                        currency: "BRL"
+                    }
+                );
+
+
+            // =========================
+            // GERAR PDF
+            // =========================
+
+            const elemento =
+                document.getElementById("propostaPDF");
+
+            elemento.style.display = "block";
+
+            html2pdf()
+                .set({
+                    margin: 10,
+                    filename: "Proposta-Grupo-Se-Controla.pdf",
+                    image: {
+                        type: "jpeg",
+                        quality: 1
+                    },
+                    html2canvas: {
+                        scale: 2
+                    },
+                    jsPDF: {
+                        unit: "mm",
+                        format: "a4",
+                        orientation: "portrait"
+                    }
+                })
+                .from(elemento)
+                .save()
+                .then(() => {
+
+                    elemento.style.display = "none";
+
+                });
 
         }
 
     </script>
     <div id="toastSucesso" class="toast-sucesso">
         📸 Registro profissional adicionado ao orçamento
+    </div>
+    <!-- ================================= -->
+    <!-- PROPOSTA PDF (OCULTA) -->
+    <!-- ================================= -->
+
+    <div id="propostaPDF" style="display:none;">
+
+        <div class="pdf-container">
+
+            <h1>PROPOSTA COMERCIAL</h1>
+
+            <hr>
+
+            <h2>Informações do Evento</h2>
+
+            <p><strong>Cliente:</strong> <span id="pdfCliente"></span></p>
+
+            <p><strong>Data:</strong> <span id="pdfDataEvento"></span></p>
+
+            <p><strong>Horário:</strong> <span id="pdfHorario"></span></p>
+
+            <p><strong>Local:</strong> <span id="pdfLocal"></span></p>
+
+            <p><strong>Perfil:</strong> <span id="pdfPerfil"></span></p>
+
+            <p><strong>Duração:</strong> <span id="pdfDuracao"></span></p>
+
+            <p><strong>Estrutura:</strong> <span id="pdfSom"></span></p>
+
+            <h2>Serviços Adicionais</h2>
+
+            <ul id="pdfUpgrades">
+            </ul>
+
+            <h2>Investimento</h2>
+
+            <h1 id="pdfValorTotal">
+                R$ 0,00
+            </h1>
+
+        </div>
+
     </div>
 </body>
 
