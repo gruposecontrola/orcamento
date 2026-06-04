@@ -1768,6 +1768,15 @@
                 <source src="aftermovie-divulgacao.mp4" type="video/mp4">
                 Seu navegador não conseguiu reproduzir este vídeo.
             </video>
+            <video class="modal-video" controls preload="metadata">
+                ...
+            </video>
+
+            <div class="indicador-rolagem">
+                ⬇ Role para ver os detalhes do pacote
+            </div>
+
+            <p class="observacao">
             <p class="observacao">
 
                 O pacote inclui:
@@ -2360,24 +2369,24 @@
             ${registroJaAdicionado
                         ?
                         `
-                <button
-                    class="upgrade-item upgrade-ja-adicionado"
-                    type="button"
-                >
-                    <span>✅ Registro Profissional Incluído</span>
-                    <span class="upgrade-preco">ADICIONADO</span>
-                </button>
-                `
+<button
+    class="upgrade-item upgrade-ja-adicionado"
+    onclick="removerRegistroProfissional()"
+>
+    <span>✅ Registro Profissional Incluído</span>
+    <span class="upgrade-preco">ADICIONADO</span>
+</button>
+`
                         :
                         `
-                <button
-                    class="upgrade-item"
-                    onclick="abrirAfterMovie()"
-                >
-                    <span>📸 Fotos + After Movie</span>
-                    <span class="upgrade-preco">▶ DETALHES</span>
-                </button>
-                `
+<button
+    class="upgrade-item"
+    onclick="abrirAfterMovie()"
+>
+    <span>📸 Fotos + After Movie</span>
+    <span class="upgrade-preco">▶ DETALHES</span>
+</button>
+`
                     }
 
         `;
@@ -3041,6 +3050,49 @@
                 );
 
             }, 300);
+        }
+        function removerRegistroProfissional() {
+
+            const indice =
+                upgradesSelecionados.findIndex(function (item) {
+
+                    return item.nome ===
+                        "Registro Profissional do Evento";
+
+                });
+
+            if (indice > -1) {
+
+                upgradesSelecionados.splice(indice, 1);
+
+            }
+
+            valorUpgradesAtual =
+                calcularTotalUpgrades();
+
+            valorTotalAtual =
+                valorBaseAtual + valorUpgradesAtual;
+
+            document.getElementById(
+                "valorOrcamento"
+            ).innerText =
+                formatarMoeda(valorTotalAtual);
+
+            atualizarLinhaUpgrades();
+
+            atualizarWhatsapp();
+
+            fecharModalUpgrades();
+
+            setTimeout(function () {
+
+                abrirModalUpgrades();
+
+            }, 100);
+
+            mostrarToast(
+                "📸 Registro profissional removido"
+            );
         }
         function mostrarToast(mensagem) {
 
