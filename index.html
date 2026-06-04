@@ -2098,29 +2098,9 @@
 
                 setTimeout(function () {
 
-                    if (respostas.perfil === "Particular") {
-
-                        mostrarEtapa(
-                            document.getElementById("etapaDadosEvento")
-                        );
-
-                    } else {
-
-                        if (respostas.perfil === "Particular") {
-
-                            mostrarEtapa(
-                                document.getElementById(
-                                    "etapaUpgradeParticular"
-                                )
-                            );
-
-                        } else {
-
-                            mostrarOrcamento();
-
-                        }
-
-                    }
+                    mostrarEtapa(
+                        document.getElementById("etapaDadosEvento")
+                    );
 
                 }, 300);
 
@@ -2316,8 +2296,7 @@
                 valorTotalAtual = valorBaseAtual + valorUpgradesAtual;
             }
 
-            const exibirDadosEvento =
-                respostas.perfil === "Particular";
+            const exibirDadosEvento = true;
 
             document
                 .querySelectorAll(".linha-dados-evento")
@@ -2835,7 +2814,48 @@
         function reiniciarFormulario() {
 
             document.getElementById("erroDadosEvento").style.display = "none";
+            // Limpa respostas
 
+            delete respostas.perfil;
+            delete respostas.tempo;
+            delete respostas.som;
+
+            respostas.dadosEvento = {};
+
+            // Limpa upgrades
+
+            upgradesSelecionados.length = 0;
+
+            // Limpa valores
+
+            valorBaseAtual = null;
+            valorUpgradesAtual = 0;
+            valorTotalAtual = null;
+
+            // Limpa campos do formulário
+
+            document.getElementById("nomeContratante").value = "";
+            document.getElementById("dataEvento").value = "";
+            document.getElementById("horarioEvento").value = "";
+            document.getElementById("localEvento").value = "";
+
+            // Limpa seleções visuais
+
+            document
+                .querySelectorAll(".selecionado")
+                .forEach(function (el) {
+
+                    el.classList.remove("selecionado");
+
+                });
+
+            document
+                .querySelectorAll(".upgrade-item")
+                .forEach(function (el) {
+
+                    el.classList.remove("ativo");
+
+                });
             const telaInicial =
                 document.getElementById("telaInicial");
 
@@ -3243,56 +3263,101 @@
 
             return html;
         }
-function gerarPDFProposta() {
+        function gerarPDFProposta() {
 
-    const upgrades = [];
+            const upgrades = [];
 
-    upgradesSelecionados.forEach(function(item){
+            upgradesSelecionados.forEach(function (item) {
 
-        upgrades.push(item.nome);
+                upgrades.push({
 
-    });
+                    nome: item.nome,
 
-    localStorage.setItem(
-        "propostaGrupoSeControla",
-        JSON.stringify({
+                    valor: item.valor,
 
-            cliente:
-                respostas.dadosEvento.nome || "",
+                    valorFormatado:
+                        item.valor.toLocaleString(
+                            "pt-BR",
+                            {
+                                style: "currency",
+                                currency: "BRL"
+                            }
+                        )
 
-            data:
-                formatarDataBR(
-                    respostas.dadosEvento.data
-                ),
+                });
 
-            horario:
-                respostas.dadosEvento.horario || "",
+            });
+            let dadosEventoTexto = "";
 
-            local:
-                respostas.dadosEvento.local || "",
+            if (respostas.perfil === "Particular") {
 
-            duracao:
-                respostas.tempo || "",
+                dadosEventoTexto =
+                    "Nome do contratante: " + (respostas.dadosEvento.nome || "-") + "%0A" +
+                    "Data do evento: " + formatarDataBR(respostas.dadosEvento.data) + "%0A" +
+                    "Horário de início: " + (respostas.dadosEvento.horario || "-") + "%0A" +
+                    "Local do evento: " + (respostas.dadosEvento.local || "-") + "%0A" +
+                    "Data da proposta: " + (respostas.dadosEvento.dataProposta || dataPropostaHoje()) + "%0A%0A";
+            }
 
-            som:
-                respostas.som || "",
+            const mensagemWhatsapp =
+                "Olá! Acabei de preencher o formulário do Grupo Se Controla.%0A%0A" +
+                dadosEventoTexto +
+                "Perfil: " + respostas.perfil + "%0A" +
+                "Tempo de show: " + respostas.tempo + "%0A" +
+                "Estrutura de som: " + textoEstruturaSomWhatsapp() + "%0A%0A" +
+                "Valor base: " + formatarMoeda(valorBaseAtual) + "%0A" +
+                "Upgrades selecionados:%0A" + gerarTextoUpgradesWhatsapp() +
+                "%0AValor dos upgrades: " + formatarMoeda(calcularTotalUpgrades()) + "%0A" +
+                "Valor estimado total: " + formatarMoeda(valorTotalAtual) + "%0A%0A" +
+                "Gostaria de prosseguir com o orçamento.";
+            localStorage.setItem(
+                "propostaGrupoSeControla",
+                JSON.stringify({
 
-            upgrades,
+                    cliente:
+                        respostas.dadosEvento.nome || "",
 
-            valor:
-                formatarMoeda(
-                    valorTotalAtual
-                )
+                    data:
+                        formatarDataBR(
+                            respostas.dadosEvento.data
+                        ),
 
-        })
-    );
+                    horario:
+                        respostas.dadosEvento.horario || "",
 
-    window.open(
-        "proposta.html",
-        "_blank"
-    );
+                    local:
+                        respostas.dadosEvento.local || "",
 
-}
+                    duracao:
+                        respostas.tempo || "",
+
+                    som:
+                        respostas.som || "",
+
+                    valorBanda:
+                        formatarMoeda(
+                            valorBaseAtual
+                        ),
+
+                    upgrades,
+
+                    valor:
+                        formatarMoeda(
+                            valorTotalAtual
+                        ),
+
+                    mensagemWhatsapp:
+                        mensagemWhatsapp
+
+                })
+            );
+
+            window.open(
+                "proposta.html",
+                "_blank"
+            );
+
+        }
     </script>
     <div id="toastSucesso" class="toast-sucesso">
         📸 Registro profissional adicionado ao orçamento
@@ -3339,7 +3404,7 @@ function gerarPDFProposta() {
         </div>
 
     </div>
-    
+
 </body>
 
 </html>
