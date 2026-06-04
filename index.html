@@ -17,9 +17,8 @@
         }
 
         body {
-            min-height: 100vh;
-            overflow-x: hidden;
-            overflow-y: auto;
+            height: 100vh;
+            overflow: hidden;
             background:
                 radial-gradient(circle at center,
                     #ffffff 0%,
@@ -31,66 +30,73 @@
 
         .hero {
             width: 100%;
-            min-height: 100vh;
+            min-height: 100svh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 12px;
+            padding: 10px 20px 90px;
             position: relative;
-            padding: clamp(20px, 4vh, 45px) 20px clamp(80px, 10vh, 120px);
             opacity: 1;
             transition: opacity .55s ease, transform .55s ease;
         }
 
         .hero.saindo {
             opacity: 0;
-            transform: translateY(-35px) scale(.98);
+            transform: translateY(-430px) scale(.98);
             pointer-events: none;
         }
 
         .hero.entrando {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(-400px) scale(1);
         }
 
         .logo {
-            width: min(72vw, 620px);
+            width: 90%;
+            max-width: 1320px;
             height: auto;
             object-fit: contain;
             filter: brightness(0) invert(72%);
             opacity: .92;
             z-index: 1;
-            margin-bottom: clamp(-110px, -8vw, -45px);
         }
 
         .banda {
-            width: min(62vw, 520px);
+            position: absolute;
+            width: 90%;
+            max-width: 1000px;
             height: auto;
+            top: 700px;
             z-index: 2;
             filter: drop-shadow(0 25px 35px rgba(0, 0, 0, .18));
-            margin-bottom: clamp(18px, 3vh, 38px);
         }
 
         .subtitulo {
+            position: absolute;
+            top: 1700px;
             width: 100%;
             text-align: center;
-            font-size: clamp(28px, 3vw, 42px);
+            font-size: 42px;
             font-weight: 700;
             color: #4b5563;
             letter-spacing: 1px;
         }
 
         .descricao {
+            position: absolute;
+            top: 1800px;
             width: 100%;
             text-align: center;
-            font-size: clamp(16px, 1.6vw, 24px);
+            font-size: 24px;
             line-height: 1.5;
             color: #6b7280;
-            margin-top: 10px;
         }
 
         .btn-comecar {
-            margin-top: clamp(18px, 3vh, 32px);
+            position: absolute;
+            top: 1950px;
             padding: 22px 60px;
             border: none;
             border-radius: 999px;
@@ -147,7 +153,7 @@
 
         .etapa {
             width: 100%;
-            min-height: 100vh;
+            height: 100vh;
             display: none;
             align-items: center;
             justify-content: center;
@@ -784,185 +790,54 @@
             color: #16a34a;
             font-weight: 900;
         }
+    
+@media (max-width: 768px){
 
+    body{
+        overflow-y:auto;
+    }
 
-        /* ========================= */
-        /* AJUSTE AUTOMÁTICO DE ESCALA */
-        /* ========================= */
+    .hero{
+        min-height:100svh;
+        gap:8px;
+        padding:10px 16px 100px;
+    }
 
-        @media (max-height: 820px) and (min-width: 769px) {
-            .hero {
-                padding-top: 10px;
-                padding-bottom: 70px;
-            }
+    .logo{
+        width:min(92vw,420px);
+        max-width:none;
+    }
 
-            .logo {
-                width: min(58vw, 520px);
-                margin-bottom: -85px;
-            }
+    .banda{
+        position:relative;
+        top:auto;
+        width:min(78vw,320px);
+        max-width:none;
+    }
 
-            .banda {
-                width: min(52vw, 430px);
-                margin-bottom: 22px;
-            }
+    .subtitulo{
+        position:relative;
+        top:auto;
+        font-size:clamp(24px,6vw,34px);
+        text-align:center;
+    }
 
-            .subtitulo {
-                font-size: 34px;
-            }
+    .descricao{
+        position:relative;
+        top:auto;
+        font-size:clamp(14px,4vw,18px);
+        text-align:center;
+    }
 
-            .descricao {
-                font-size: 18px;
-            }
+    .btn-comecar{
+        position:relative;
+        top:auto;
+        padding:14px 28px;
+        font-size:18px;
+    }
+}
 
-            .btn-comecar {
-                padding: 18px 45px;
-                font-size: 20px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero {
-                min-height: 100vh;
-                padding: 28px 18px 110px;
-                justify-content: center;
-            }
-
-            .logo {
-                width: min(96vw, 520px);
-                margin-bottom: -70px;
-            }
-
-            .banda {
-                width: min(92vw, 430px);
-                margin-bottom: 22px;
-            }
-
-            .subtitulo {
-                font-size: 28px;
-            }
-
-            .descricao {
-                font-size: 16px;
-            }
-
-            .btn-comecar {
-                padding: 16px 34px;
-                font-size: 18px;
-            }
-
-            .instagram-link {
-                left: 14px;
-                bottom: 14px;
-                padding: 10px 13px;
-                gap: 8px;
-            }
-
-            .instagram-link img {
-                width: 32px;
-                height: 32px;
-            }
-
-            .instagram-text {
-                font-size: 15px;
-            }
-
-            .etapa {
-                padding: 18px;
-                align-items: flex-start;
-            }
-
-            .card-pergunta {
-                min-height: auto;
-                padding: 38px 22px;
-                border-radius: 30px;
-            }
-
-            .card-pergunta h1 {
-                font-size: 38px;
-                margin-bottom: 35px;
-            }
-
-            .opcao-btn {
-                padding: 24px 24px;
-                font-size: 24px;
-            }
-
-            .form-evento,
-            .opcoes-estrutura {
-                grid-template-columns: 1fr;
-            }
-
-            .campo-form.local {
-                grid-column: 1;
-            }
-
-            .linha-orcamento {
-                flex-direction: column;
-                gap: 8px;
-                text-align: left;
-            }
-
-            .resumo-orcamento {
-                font-size: 20px;
-            }
-
-            .valor-final {
-                font-size: 48px;
-            }
-        }
-
-
-
-        /* =====================================================
-           ESCALA GLOBAL RESPONSIVA
-           Simula um zoom visual menor sem alterar o fluxo interno
-           ===================================================== */
-        :root {
-            --site-scale: 0.55;
-        }
-
-        body {
-            zoom: var(--site-scale);
-            width: calc(100% / var(--site-scale));
-            min-height: calc(100vh / var(--site-scale));
-        }
-
-        .hero,
-        .etapa {
-            min-height: calc(100vh / var(--site-scale));
-        }
-
-        .modal-upgrades,
-        .modal-info {
-            width: calc(100vw / var(--site-scale));
-            height: calc(100vh / var(--site-scale));
-            right: auto;
-            bottom: auto;
-        }
-
-        @media (max-width: 900px) {
-            :root {
-                --site-scale: 0.62;
-            }
-        }
-
-        @media (max-width: 600px) {
-            :root {
-                --site-scale: 0.70;
-            }
-
-            .instagram-text {
-                display: none;
-            }
-        }
-
-        @media (max-width: 390px) {
-            :root {
-                --site-scale: 0.76;
-            }
-        }
-
-    </style>
+</style>
 
 </head>
 
@@ -2328,16 +2203,10 @@
                 "Observação: os serviços adicionais são terceirizados e os valores podem sofrer alterações conforme disponibilidade, local do evento, necessidades técnicas e fornecedor disponível.%0A%0A" +
                 "Gostaria de prosseguir com o orçamento.";
 
-            const linkWhatsapp =
+            document.getElementById("btnWhatsapp").href =
                 "https://wa.me/" + numeroWhatsapp + "?text=" + mensagem;
-
-            document.getElementById("btnWhatsapp").href = linkWhatsapp;
-
-            const whatsappRodape = document.getElementById("whatsappRodape");
-
-            if (whatsappRodape) {
-                whatsappRodape.href = linkWhatsapp;
-            }
+            document.getElementById("whatsappRodape").href =
+                "https://wa.me/" + numeroWhatsapp + "?text=" + mensagem;
         }
 
         function voltarInicio() {
