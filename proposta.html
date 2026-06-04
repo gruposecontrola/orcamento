@@ -72,7 +72,7 @@
 
             <a href="#" id="whatsappRodape" target="_blank" class="info-rodape link-rodape">
                 <i class="fa-brands fa-whatsapp"></i>
-                (61) 98439-8473
+                (61) 98493-8473
             </a>
 
             <div class="divisor"></div>
@@ -134,7 +134,12 @@
                     --
                 </strong>
             </div>
-
+            <div class="linha">
+                <span>Contratação Musical</span>
+                <strong id="pdfValorBanda">
+                    R$ 0,00
+                </strong>
+            </div>
         </div>
 
         <h2>
@@ -150,6 +155,14 @@
                 </li>
 
             </ul>
+
+            <div id="pdfTotalUpgrades" style="
+        margin-top:15px;
+        font-weight:700;
+        color:#163a63;
+     ">
+                Total dos adicionais: R$ 0,00
+            </div>
 
         </div>
 
@@ -253,7 +266,7 @@
             </p>
 
             <p>
-                WhatsApp: (61) 98439-8473
+                WhatsApp: (61) 98493-8473
             </p>
 
         </div>
@@ -261,133 +274,167 @@
     </section>
     <script>
 
-window.addEventListener("message", (event) => {
+        window.addEventListener("message", (event) => {
 
-    const dados = event.data;
+            const dados = event.data;
 
-    if (!dados || dados.tipo !== "preencherProposta") {
-        return;
-    }
+            if (!dados || dados.tipo !== "preencherProposta") {
+                return;
+            }
 
-    document.getElementById("pdfCliente").textContent =
-        dados.cliente || "-";
+            document.getElementById("pdfCliente").textContent =
+                dados.cliente || "-";
 
-    document.getElementById("pdfDataEvento").textContent =
-        dados.data || "-";
+            document.getElementById("pdfDataEvento").textContent =
+                dados.data || "-";
 
-    document.getElementById("pdfHorario").textContent =
-        dados.horario || "-";
+            document.getElementById("pdfHorario").textContent =
+                dados.horario || "-";
 
-    document.getElementById("pdfLocal").textContent =
-        dados.local || "-";
+            document.getElementById("pdfLocal").textContent =
+                dados.local || "-";
 
-    document.getElementById("pdfDuracao").textContent =
-        dados.duracao || "-";
+            document.getElementById("pdfDuracao").textContent =
+                dados.duracao || "-";
 
-    document.getElementById("pdfSom").textContent =
-        dados.som || "-";
+            document.getElementById("pdfSom").textContent =
+                dados.som || "-";
 
-    document.getElementById("pdfValorTotal").textContent =
-        dados.valor || "R$ 0,00";
+            document.getElementById("pdfValorTotal").textContent =
+                dados.valor || "R$ 0,00";
 
-    const lista =
-        document.getElementById("pdfUpgrades");
+            const lista =
+                document.getElementById("pdfUpgrades");
 
-    lista.innerHTML = "";
+            lista.innerHTML = "";
 
-    if (
-        !dados.upgrades ||
-        dados.upgrades.length === 0
-    ) {
+            if (
+                !dados.upgrades ||
+                dados.upgrades.length === 0
+            ) {
 
-        lista.innerHTML =
-            "<li>Nenhum serviço adicional selecionado</li>";
+                lista.innerHTML =
+                    "<li>Nenhum serviço adicional selecionado</li>";
 
-        return;
-    }
+                return;
+            }
 
-    dados.upgrades.forEach(item => {
+            dados.upgrades.forEach(item => {
 
-        const li =
-            document.createElement("li");
+                const li =
+                    document.createElement("li");
 
-        li.textContent =
-            item;
+                li.textContent =
+                    item;
 
-        lista.appendChild(li);
+                lista.appendChild(li);
 
-    });
-
-});
-
-</script>
-<script>
-
-window.addEventListener("load", function() {
-
-    const dados =
-        JSON.parse(
-            localStorage.getItem(
-                "propostaGrupoSeControla"
-            )
-        );
-
-    if (!dados) {
-        return;
-    }
-
-    document.getElementById("pdfCliente").textContent =
-        dados.cliente || "-";
-
-    document.getElementById("pdfDataEvento").textContent =
-        dados.data || "-";
-
-    document.getElementById("pdfHorario").textContent =
-        dados.horario || "-";
-
-    document.getElementById("pdfLocal").textContent =
-        dados.local || "-";
-
-    document.getElementById("pdfDuracao").textContent =
-        dados.duracao || "-";
-
-    document.getElementById("pdfSom").textContent =
-        dados.som || "-";
-
-    document.getElementById("pdfValorTotal").textContent =
-        dados.valor || "R$ 0,00";
-
-    const lista =
-        document.getElementById("pdfUpgrades");
-
-    lista.innerHTML = "";
-
-    if (
-        !dados.upgrades ||
-        dados.upgrades.length === 0
-    ) {
-
-        lista.innerHTML =
-            "<li>Nenhum serviço adicional selecionado</li>";
-
-    } else {
-
-        dados.upgrades.forEach(function(item){
-
-            const li =
-                document.createElement("li");
-
-            li.textContent = item;
-
-            lista.appendChild(li);
+            });
 
         });
 
-    }
+    </script>
+    <script>
 
-});
+        window.addEventListener("load", function () {
 
-</script>
+            const dados =
+                JSON.parse(
+                    localStorage.getItem(
+                        "propostaGrupoSeControla"
+                    )
+                );
+
+            if (!dados) {
+                return;
+            }
+            const whatsappRodape =
+                document.getElementById(
+                    "whatsappRodape"
+                );
+
+            if (
+                whatsappRodape &&
+                dados.mensagemWhatsapp
+            ) {
+
+                whatsappRodape.href =
+                    "https://wa.me/5561984938473?text=" +
+                    dados.mensagemWhatsapp;
+
+            }
+            document.getElementById("pdfCliente").textContent =
+                dados.cliente || "-";
+
+            document.getElementById("pdfDataEvento").textContent =
+                dados.data || "-";
+
+            document.getElementById("pdfHorario").textContent =
+                dados.horario || "-";
+
+            document.getElementById("pdfLocal").textContent =
+                dados.local || "-";
+
+            document.getElementById("pdfDuracao").textContent =
+                dados.duracao || "-";
+
+            document.getElementById("pdfSom").textContent =
+                dados.som || "-";
+            document.getElementById("pdfValorBanda").textContent =
+                dados.valorBanda || "R$ 0,00";
+            document.getElementById("pdfValorTotal").textContent =
+                dados.valor || "R$ 0,00";
+
+            const lista =
+                document.getElementById("pdfUpgrades");
+
+            lista.innerHTML = "";
+
+            if (
+                !dados.upgrades ||
+                dados.upgrades.length === 0
+            ) {
+
+                lista.innerHTML =
+                    "<li>Nenhum serviço adicional selecionado</li>";
+
+            } else {
+
+                let totalUpgrades = 0;
+
+                dados.upgrades.forEach(function (item) {
+
+                    const li =
+                        document.createElement("li");
+
+                    li.textContent =
+                        item.nome +
+                        " — " +
+                        item.valorFormatado;
+
+                    lista.appendChild(li);
+
+                    totalUpgrades += item.valor;
+
+                });
+
+                document.getElementById(
+                    "pdfTotalUpgrades"
+                ).textContent =
+                    "Total dos adicionais: " +
+                    totalUpgrades.toLocaleString(
+                        "pt-BR",
+                        {
+                            style: "currency",
+                            currency: "BRL"
+                        }
+                    );
+
+            }
+
+        });
+
+    </script>
 </body>
 
 </html>
